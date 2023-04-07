@@ -38,7 +38,8 @@ function sc_handle_collision(){
 	}
 	
 	if(landed) {
-		dashable = true;	
+		dashable = true;
+		double_jump = true;
 	}
 	
 }

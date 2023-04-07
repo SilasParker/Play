@@ -3,7 +3,8 @@
 enum states {
 	idle,
 	run,
-	jump,
+	first_jump,
+	double_jump,
 	fall,
 	dash,
 	land,
@@ -16,7 +17,8 @@ enum states {
 actions = {
 	idle: new as_idle(),
 	run: new as_run(),
-	jump: new as_jump(),
+	double_jump: new as_double_jump(),
+	first_jump: new as_first_jump(),
 	fall: new as_fall(),
 	dash: new as_dash(),
 	crouch_idle: new as_crouch_idle(),
@@ -27,6 +29,7 @@ fsm = new FSM(actions.fall);
 
 landed = false;
 dashable = true;
+double_jump = true;
 current_plat = noone;
 inactionable_frames = 0;
 initial_x = x;

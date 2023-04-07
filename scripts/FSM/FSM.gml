@@ -75,7 +75,7 @@ function as_idle() : as_grounded() constructor {
 			p.fsm.transition(p,p.actions.run);
 			return true;
 		} else if(keyboard_check(vk_up)) {
-			p.fsm.transition(p,p.actions.jump);
+			p.fsm.transition(p,p.actions.first_jump);
 			return true;
 		} else if(keyboard_check(vk_down)) {
 			p.fsm.transition(p,p.actions.crouch_idle);
@@ -108,7 +108,7 @@ function as_run() : as_grounded() constructor {
 	
 	interrupt = function(p) {
 		if(keyboard_check(vk_up)) {
-			p.fsm.transition(p,p.actions.jump);
+			p.fsm.transition(p,p.actions.first_jump);
 			return true;
 		} else if(keyboard_check(vk_down)) {
 			p.fsm.transition(p,p.actions.crouch_idle);
@@ -127,14 +127,6 @@ function as_run() : as_grounded() constructor {
 
 function as_jump() : as_airbourne() constructor {
 	
-	init = function(p) {
-		p.y_vel = -4;
-		p.state = states.jump;
-		p.landed = false;
-		p.current_plat = noone;
-		p.sprite_index = JumpRise;
-	}
-	
 	step = function(p) {
 		p.y_vel += 0.2;
 		if(keyboard_check(vk_left)) {
@@ -144,6 +136,43 @@ function as_jump() : as_airbourne() constructor {
 			p.image_xscale = 1;
 			p.x_vel = 4;
 		}
+	}
+	
+}
+
+function as_first_jump() : as_jump() constructor {
+	
+	init = function(p) {
+		p.y_vel = -4;
+		p.state = states.first_jump;
+		p.landed = false;
+		p.current_plat = noone;
+		p.sprite_index = JumpRise;
+	}
+	
+	interrupt = function(p) {
+		if(p.y_vel > 0) {
+			p.fsm.transition(p,p.actions.fall);
+			return true;
+		} else if(keyboard_check(vk_shift) && p.dashable) {
+			p.fsm.transition(p,p.actions.dash);
+			return true;
+		} else if(keyboard_check(vk_space)) {
+			p.double_jump = false;
+			p.fsm.transition(p,p.actions.double_jump);
+			return true;
+		}
+		return false;
+	}
+	
+}
+
+function as_double_jump() : as_jump() constructor {
+	
+	init = function(p) {
+		p.y_vel = -3;
+		p.state = states.double_jump;
+		p.sprite_index = JumpRise;
 	}
 	
 	interrupt = function(p) {
@@ -156,6 +185,8 @@ function as_jump() : as_airbourne() constructor {
 		}
 		return false;
 	}
+	
+	
 	
 }
 
@@ -187,6 +218,10 @@ function as_fall() : as_airbourne() constructor {
 	interrupt = function(p) {
 		if(keyboard_check(vk_shift) && p.dashable) {
 			p.fsm.transition(p,p.actions.dash);
+			return true;
+		} else if(keyboard_check(vk_space) && p.double_jump) {
+			p.double_jump = false;
+			p.fsm.transition(p,p.actions.double_jump);
 			return true;
 		}
 		return false;
