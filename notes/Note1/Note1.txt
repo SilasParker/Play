@@ -1,0 +1,27 @@
+TODO:
+
+Double Jump
+
+Dash -> Roll
+
+Corner Collision
+
+Wand Shot
+-Follow Mouse
+-Hit Object (Bell)
+
+Wall Jump
+
+Go to next room
+
+Create Fluffy
+
+Crouch Movement
+
+
+
+Fluffy:
+Kill Fluffy (1 shot in each eye)
+Play Song
+Platform
+
