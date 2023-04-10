@@ -80,7 +80,7 @@ function as_idle() : as_grounded() constructor {
 		} else if(keyboard_check(vk_down)) {
 			p.fsm.transition(p,p.actions.crouch_idle);
 			return true;
-		} else if(keyboard_check(vk_shift) && p.dashable) {
+		} else if(keyboard_check_pressed(vk_shift) && p.dashable) {
 			p.fsm.transition(p,p.actions.dash);
 			return true;
 		}
@@ -113,7 +113,7 @@ function as_run() : as_grounded() constructor {
 		} else if(keyboard_check(vk_down)) {
 			p.fsm.transition(p,p.actions.crouch_idle);
 			return true;
-		} else if(keyboard_check(vk_shift) && p.dashable) {
+		} else if(keyboard_check_pressed(vk_shift) && p.dashable) {
 			p.fsm.transition(p,p.actions.dash);
 			return true;
 		} else if(!(keyboard_check(vk_left) || keyboard_check(vk_right))) {
@@ -157,7 +157,7 @@ function as_first_jump() : as_jump() constructor {
 		} else if(keyboard_check(vk_shift) && p.dashable) {
 			p.fsm.transition(p,p.actions.dash);
 			return true;
-		} else if(keyboard_check(vk_up) && p.last_key != vk_up) {
+		} else if(keyboard_check_pressed(vk_up)) {
 			p.double_jump = false;
 			p.fsm.transition(p,p.actions.double_jump);
 			return true;
@@ -179,7 +179,7 @@ function as_double_jump() : as_jump() constructor {
 		if(p.y_vel > 0) {
 			p.fsm.transition(p,p.actions.fall);
 			return true;
-		} else if(keyboard_check(vk_shift) && p.dashable) {
+		} else if(keyboard_check_pressed(vk_shift) && p.dashable) {
 			p.fsm.transition(p,p.actions.dash);
 			return true;
 		}
@@ -216,10 +216,10 @@ function as_fall() : as_airbourne() constructor {
 	}
 	
 	interrupt = function(p) {
-		if(keyboard_check(vk_shift) && p.dashable) {
+		if(keyboard_check_pressed(vk_shift) && p.dashable) {
 			p.fsm.transition(p,p.actions.dash);
 			return true;
-		} else if(keyboard_check(vk_up) && p.double_jump && p.last_key != vk_up) {
+		} else if(keyboard_check_pressed(vk_up) && p.double_jump) {
 			p.double_jump = false;
 			p.fsm.transition(p,p.actions.double_jump);
 			return true;
@@ -287,7 +287,7 @@ function as_crouch_idle() : as_grounded() constructor {
 	}
 	
 	interrupt = function(p) {
-		if(keyboard_check(vk_shift) && p.dashable) {
+		if(keyboard_check_pressed(vk_shift) && p.dashable) {
 			p.fsm.transition(p,p.actions.dash);
 			return true;
 		} else if(!keyboard_check(vk_down)) {

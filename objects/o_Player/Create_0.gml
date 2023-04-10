@@ -40,14 +40,3 @@ height_offset = 50 * image_yscale;
 
 x_vel = 0;
 y_vel = 0;
-
-is_running_into_wall = function(wall_id) {
-	if(next_y >= wall_id.top && next_y <= wall_id.bottom) {
-		if(x < wall_id.x && next_x > wall_id.x) {
-			return true;
-		} else if(x > wall_id.x && next_x < wall_id.x) {
-			return true;
-		}
-	}
-	return false;
-}

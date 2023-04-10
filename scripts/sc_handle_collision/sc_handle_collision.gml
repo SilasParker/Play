@@ -37,6 +37,15 @@ function sc_handle_collision(){
 		}
 	}
 	
+	with(o_Door) {
+		if(left <= other.x && other.x <= right) {
+			if(y == other.y) {
+				
+				room_goto(r_room2);	
+			}
+		}
+	}
+	
 	if(landed) {
 		dashable = true;
 		double_jump = true;
