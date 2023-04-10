@@ -1,7 +1,5 @@
 TODO:
 
-Double Jump
-
 Dash -> Roll
 
 Corner Collision

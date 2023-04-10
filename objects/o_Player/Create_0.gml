@@ -34,6 +34,7 @@ current_plat = noone;
 inactionable_frames = 0;
 initial_x = x;
 initial_y = y;
+last_key = 0;
 
 height_offset = 50 * image_yscale;
 

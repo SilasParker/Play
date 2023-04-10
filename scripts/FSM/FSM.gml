@@ -157,7 +157,7 @@ function as_first_jump() : as_jump() constructor {
 		} else if(keyboard_check(vk_shift) && p.dashable) {
 			p.fsm.transition(p,p.actions.dash);
 			return true;
-		} else if(keyboard_check(vk_space)) {
+		} else if(keyboard_check(vk_up) && p.last_key != vk_up) {
 			p.double_jump = false;
 			p.fsm.transition(p,p.actions.double_jump);
 			return true;
@@ -170,7 +170,7 @@ function as_first_jump() : as_jump() constructor {
 function as_double_jump() : as_jump() constructor {
 	
 	init = function(p) {
-		p.y_vel = -3;
+		p.y_vel = -3.5;
 		p.state = states.double_jump;
 		p.sprite_index = JumpRise;
 	}
@@ -219,7 +219,7 @@ function as_fall() : as_airbourne() constructor {
 		if(keyboard_check(vk_shift) && p.dashable) {
 			p.fsm.transition(p,p.actions.dash);
 			return true;
-		} else if(keyboard_check(vk_space) && p.double_jump) {
+		} else if(keyboard_check(vk_up) && p.double_jump && p.last_key != vk_up) {
 			p.double_jump = false;
 			p.fsm.transition(p,p.actions.double_jump);
 			return true;
@@ -234,6 +234,7 @@ function as_land() : as_grounded() constructor {
 	init = function(p) {
 		p.y_vel = 0;
 		p.dashable = true;
+		p.double_jump = true;
 	}
 	
 	interrupt = function(p) {
