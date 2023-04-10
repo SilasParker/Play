@@ -66,7 +66,7 @@ function as_idle() : as_grounded() constructor {
 	
 	step = function(p) {
 		if(p.x_vel != 0) {
-			p.x_vel -= 0.5 * p.image_xscale;	
+			p.x_vel = sign(p.x_vel) * max(0, abs(p.x_vel) - 0.5);
 		}
 	}
 	
@@ -82,6 +82,9 @@ function as_idle() : as_grounded() constructor {
 			return true;
 		} else if(keyboard_check_pressed(vk_shift) && p.dashable) {
 			p.fsm.transition(p,p.actions.dash);
+			return true;
+		} else if(keyboard_check_pressed(vk_space)) {
+			p.fsm.transition(p,p.actions.idle_basic_cast);
 			return true;
 		}
 		return false;
@@ -119,6 +122,9 @@ function as_run() : as_grounded() constructor {
 		} else if(!(keyboard_check(vk_left) || keyboard_check(vk_right))) {
 			p.fsm.transition(p,p.actions.idle);
 			return true;	
+		} else if(keyboard_check_pressed(vk_space)) {
+			p.fsm.transition(p,p.actions.idle_basic_cast);
+			return true;
 		}
 		return false;
 	}
@@ -297,4 +303,34 @@ function as_crouch_idle() : as_grounded() constructor {
 		return false;
 	}
 
+}
+
+function as_idle_basic_cast() : as_grounded() constructor {
+	
+	init = function(p) {
+		p.sprite_index = sp_Idle_Shoot;
+		p.state = states.idle_basic_cast;
+		p.x_vel = 0;
+	}
+	
+	step = function(p) {
+		if(p.image_index == 4) {
+			instance_create_layer(
+				p.x+(p.idle_basic_cast_offset_x * p.image_xscale),
+				p.y+p.idle_basic_cast_offset_y,
+				"Player",
+				o_Basic_Cast, 
+				{ xscale: p.image_xscale }
+			);	
+		}
+	}
+	
+	interrupt = function(p) {
+		if(p.image_index == 12) {
+			p.fsm.transition(p,p.actions.idle);
+			return true;
+		}
+		return false;
+	}
+	
 }

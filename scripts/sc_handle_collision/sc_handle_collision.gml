@@ -1,5 +1,3 @@
-// Script assets have changed for v2.3.0 see
-// https://help.yoyogames.com/hc/en-us/articles/360005277377 for more information
 function sc_handle_collision(){
 	
 	//fall off platform
@@ -37,6 +35,7 @@ function sc_handle_collision(){
 		}
 	}
 	
+	//walk through door
 	with(o_Door) {
 		if(left <= other.x && other.x <= right) {
 			if(y == other.y) {

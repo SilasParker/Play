@@ -3,13 +3,11 @@ TODO:
 Corner Collision
 
 Wand Shot
--Follow Mouse
+-Directional
 -Hit Object (Bell)
 -Protego
 
 Wall Jump
-
-Go to next room
 
 Create Fluffy
 
