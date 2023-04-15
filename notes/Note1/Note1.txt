@@ -2,7 +2,6 @@ TODO:
 
 Corner Collision
 
-Wand Shot
 -Directional
 -Hit Object (Bell)
 -Protego

@@ -3,7 +3,7 @@
 active_frames = 50;
 active = true;
 
-x_vel = 5 * xscale;
+x_vel = 10 * xscale;
 y_vel = 0;
 
 initial_x = x;

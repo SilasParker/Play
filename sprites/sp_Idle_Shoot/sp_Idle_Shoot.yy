@@ -3,7 +3,7 @@
   "resourceVersion": "1.0",
   "name": "sp_Idle_Shoot",
   "bbox_bottom": 49,
-  "bbox_left": 8,
+  "bbox_left": 6,
   "bbox_right": 45,
   "bbox_top": 6,
   "bboxMode": 0,
