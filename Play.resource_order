@@ -28,6 +28,7 @@
     {"name":"CrouchWalk","order":5,"path":"sprites/CrouchWalk/CrouchWalk.yy",},
     {"name":"o_Player_Arm","order":6,"path":"objects/o_Player_Arm/o_Player_Arm.yy",},
     {"name":"sp_Shot_Dissipate","order":11,"path":"sprites/sp_Shot_Dissipate/sp_Shot_Dissipate.yy",},
+    {"name":"sp_wall_jump","order":15,"path":"sprites/sp_wall_jump/sp_wall_jump.yy",},
     {"name":"sp_Door","order":7,"path":"sprites/sp_Door/sp_Door.yy",},
     {"name":"o_Door","order":4,"path":"objects/o_Door/o_Door.yy",},
     {"name":"JumpFall","order":3,"path":"sprites/JumpFall/JumpFall.yy",},

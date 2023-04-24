@@ -46,6 +46,7 @@
     {"id":{"name":"CrouchWalk","path":"sprites/CrouchWalk/CrouchWalk.yy",},},
     {"id":{"name":"o_Player_Arm","path":"objects/o_Player_Arm/o_Player_Arm.yy",},},
     {"id":{"name":"sp_Shot_Dissipate","path":"sprites/sp_Shot_Dissipate/sp_Shot_Dissipate.yy",},},
+    {"id":{"name":"sp_wall_jump","path":"sprites/sp_wall_jump/sp_wall_jump.yy",},},
     {"id":{"name":"sp_Door","path":"sprites/sp_Door/sp_Door.yy",},},
     {"id":{"name":"o_Door","path":"objects/o_Door/o_Door.yy",},},
     {"id":{"name":"JumpFall","path":"sprites/JumpFall/JumpFall.yy",},},

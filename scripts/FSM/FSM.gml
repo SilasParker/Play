@@ -326,9 +326,7 @@ function as_idle_basic_cast() : as_grounded() constructor {
 	}
 	
 	step = function(p) {
-		log("frame "+string(p.image_index));
 		if(p.image_index == 5) {
-			log("shot");
 			instance_create_layer(
 				p.x+(p.idle_basic_cast_offset_x * p.image_xscale),
 				p.y+p.idle_basic_cast_offset_y,
@@ -409,13 +407,13 @@ function as_fall() : as_airbourne() constructor {
 	}
 	
 	interrupt = function(p) {
-		if(keyboard_check_pressed(ord("W"))) {
-			if(sc_is_colliding_wall() == "left") {
-				log("wall jump left");
-				return false;
-			} else if(sc_is_colliding_wall() == "right") {
-				log("wall jump right");
-				return false;
+		if(keyboard_check_pressed(ord("W")) && p.wall_jump) {
+			if(sc_is_colliding_wall() == "left" && keyboard_check(ord("D"))) {
+				p.fsm.transition(p,p.actions.wall_jump);
+				return true;
+			} else if(sc_is_colliding_wall() == "right" && keyboard_check(ord("A"))) {
+				p.fsm.transition(p,p.actions.wall_jump);
+				return true;
 			}
 		}
 		if(keyboard_check_pressed(ord("W")) && p.double_jump) {
@@ -428,5 +426,27 @@ function as_fall() : as_airbourne() constructor {
 		}
 		return false;
 	}
+
+}
+
+function as_wall_jump() : as_airbourne() constructor {
+
+	init = function(p) {
+		p.sprite_index = sp_wall_jump;
+	}
+	
+	step = function(p) {
+		p.wall_jump = false;
+	}
+	
+	interrupt = function(p) {
+		if(!p.wall_jump) {
+			p.fsm.transition(p,p.actions.double_jump);
+			return true;
+		}
+		return false;
+	}
+	
+	
 
 }

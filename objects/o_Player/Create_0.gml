@@ -12,7 +12,8 @@ enum states {
 	crouch_walk,
 	idle_basic_cast,
 	air_basic_cast,
-	aim_basic_cast
+	aim_basic_cast,
+	wall_jump
 }
 
 #macro log show_debug_message
@@ -28,7 +29,8 @@ actions = {
 	land: new as_land(),
 	idle_basic_cast: new as_idle_basic_cast(),
 	air_basic_cast: new as_air_basic_cast(),
-	aim_basic_cast: new as_aim_basic_cast()
+	aim_basic_cast: new as_aim_basic_cast(),
+	wall_jump: new as_wall_jump()
 };
 
 fsm = new FSM(actions.fall);
@@ -41,6 +43,7 @@ inactionable_frames = 0;
 initial_x = x;
 initial_y = y;
 colliding_this_frame = false;
+wall_jump = true;
 
 height_offset = 50 * image_yscale;
 idle_basic_cast_offset_x = 22;
