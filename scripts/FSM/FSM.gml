@@ -71,19 +71,20 @@ function as_idle() : as_grounded() constructor {
 	}
 	
 	interrupt = function(p) {
-		if(keyboard_check(vk_left) || keyboard_check(vk_right)) {
-			p.fsm.transition(p,p.actions.run);
-			return true;
-		} else if(keyboard_check(vk_up)) {
-			p.fsm.transition(p,p.actions.first_jump);
-			return true;
-		} else if(keyboard_check(vk_down)) {
-			p.fsm.transition(p,p.actions.crouch_idle);
-			return true;
-		} else if(keyboard_check(vk_space) && keyboard_check(vk_shift)) {
+		if(keyboard_check(vk_space)) {
 			p.fsm.transition(p,p.actions.aim_basic_cast);
 			return true;
-		} else if(keyboard_check_pressed(vk_space)) {
+		} 
+		if(keyboard_check(ord("A")) || keyboard_check(ord("D"))) {
+			p.fsm.transition(p,p.actions.run);
+			return true;
+		} else if(keyboard_check(ord("W"))) {
+			p.fsm.transition(p,p.actions.first_jump);
+			return true;
+		} else if(keyboard_check(ord("S"))) {
+			p.fsm.transition(p,p.actions.crouch_idle);
+			return true;
+		} else if(mouse_check_button_pressed(mb_left)) {
 			p.fsm.transition(p,p.actions.idle_basic_cast);
 			return true;
 		}
@@ -100,29 +101,30 @@ function as_run() : as_grounded() constructor {
 	}
 	
 	step = function(p) {
-		if(keyboard_check(vk_left)) {
+		if(keyboard_check(ord("A"))) {
 			p.image_xscale = -1;
 			p.x_vel = -4;
-		} else if(keyboard_check(vk_right)) {
+		} else if(keyboard_check(ord("D"))) {
 			p.image_xscale = 1;
 			p.x_vel = 4;
 		}
 	}
 	
 	interrupt = function(p) {
-		if(keyboard_check(vk_up)) {
+		if(keyboard_check(vk_space)) {
+			p.fsm.transition(p,p.actions.aim_basic_cast);
+			return true;
+		} 
+		if(keyboard_check(ord("W"))) {
 			p.fsm.transition(p,p.actions.first_jump);
 			return true;
-		} else if(keyboard_check(vk_down)) {
+		} else if(keyboard_check(ord("S"))) {
 			p.fsm.transition(p,p.actions.crouch_idle);
 			return true;
-		} else if(keyboard_check_pressed(vk_shift) && p.dashable) {
-			p.fsm.transition(p,p.actions.dash);
-			return true;
-		} else if(!(keyboard_check(vk_left) || keyboard_check(vk_right))) {
+		} else if(!(keyboard_check(ord("A")) || keyboard_check(ord("D")))) {
 			p.fsm.transition(p,p.actions.idle);
 			return true;	
-		} else if(keyboard_check_pressed(vk_space)) {
+		} else if(mouse_check_button_pressed(mb_left)) {
 			p.fsm.transition(p,p.actions.idle_basic_cast);
 			return true;
 		}
@@ -135,10 +137,10 @@ function as_jump() : as_airbourne() constructor {
 	
 	step = function(p) {
 		p.y_vel += 0.2;
-		if(keyboard_check(vk_left)) {
+		if(keyboard_check(ord("A"))) {
 			p.image_xscale = -1;
 			p.x_vel = -4;
-		} else if(keyboard_check(vk_right)) {
+		} else if(keyboard_check(ord("D"))) {
 			p.image_xscale = 1;
 			p.x_vel = 4;
 		}
@@ -160,16 +162,13 @@ function as_first_jump() : as_jump() constructor {
 		if(p.y_vel > 0) {
 			p.fsm.transition(p,p.actions.fall);
 			return true;
-		} else if(keyboard_check(vk_shift) && p.dashable) {
-			p.fsm.transition(p,p.actions.dash);
-			return true;
 		}
-		if(keyboard_check_pressed(vk_up)) {
+		if(keyboard_check_pressed(ord("W"))) {
 			p.double_jump = false;
 			p.fsm.transition(p,p.actions.double_jump);
 			return true;
 		}
-		if(keyboard_check_pressed(vk_space)) {
+		if(mouse_check_button_pressed(mb_left)) {
 			p.fsm.transition(p,p.actions.air_basic_cast);
 			return true;
 		}
@@ -190,10 +189,7 @@ function as_double_jump() : as_jump() constructor {
 		if(p.y_vel > 0) {
 			p.fsm.transition(p,p.actions.fall);
 			return true;
-		} else if(keyboard_check_pressed(vk_shift) && p.dashable) {
-			p.fsm.transition(p,p.actions.dash);
-			return true;
-		} else if(keyboard_check_pressed(vk_space)) {
+		} else if(mouse_check_button_pressed(mb_left)) {
 			p.fsm.transition(p,p.actions.air_basic_cast);
 			return true;
 		}
@@ -262,10 +258,7 @@ function as_crouch_idle() : as_grounded() constructor {
 	}
 	
 	interrupt = function(p) {
-		if(keyboard_check_pressed(vk_shift) && p.dashable) {
-			p.fsm.transition(p,p.actions.dash);
-			return true;
-		} else if(!keyboard_check(vk_down)) {
+		if(!keyboard_check(ord("S"))) {
 			p.fsm.transition(p,p.actions.idle);
 			return true;
 		}
@@ -283,9 +276,9 @@ function as_air_basic_cast() : as_airbourne() constructor {
 	
 	step = function(p) {
 		p.y_vel += 0.2;
-		if(keyboard_check(vk_left)) {
+		if(keyboard_check(ord("S"))) {
 			p.x_vel = -4;	
-		} else if(keyboard_check(vk_right)) {
+		} else if(keyboard_check(ord("D"))) {
 			p.x_vel = 4;	
 		}
 		if((p.x_vel > 4 && p.image_xscale = 1) || (p.x_vel < -4 && p.image_xscale = -1)) {
@@ -329,10 +322,13 @@ function as_idle_basic_cast() : as_grounded() constructor {
 		p.sprite_index = sp_Idle_Shoot;
 		p.state = states.idle_basic_cast;
 		p.x_vel = 0;
+		p.image_index = 0;
 	}
 	
 	step = function(p) {
+		log("frame "+string(p.image_index));
 		if(p.image_index == 5) {
+			log("shot");
 			instance_create_layer(
 				p.x+(p.idle_basic_cast_offset_x * p.image_xscale),
 				p.y+p.idle_basic_cast_offset_y,
@@ -397,14 +393,14 @@ function as_fall() : as_airbourne() constructor {
 	
 	step = function(p) {
 		p.y_vel += 0.2;
-		if(keyboard_check(vk_left)) {
+		if(keyboard_check(ord("A"))) {
 			p.image_xscale = -1;
 			p.x_vel = -4;
-		} else if(keyboard_check(vk_right)) {
+		} else if(keyboard_check(ord("D"))) {
 			p.image_xscale = 1;
 			p.x_vel = 4;
 		}
-		if(keyboard_check(vk_down)) {
+		if(keyboard_check(ord("S"))) {
 			p.y_vel += 2;	
 		}
 		if((p.x_vel > 4 && p.image_xscale = 1) || (p.x_vel < -4 && p.image_xscale = -1)) {
@@ -413,11 +409,7 @@ function as_fall() : as_airbourne() constructor {
 	}
 	
 	interrupt = function(p) {
-		if(keyboard_check_pressed(vk_shift) && p.dashable) {
-			p.fsm.transition(p,p.actions.dash);
-			return true;
-		} 
-		if(keyboard_check_pressed(vk_up)) {
+		if(keyboard_check_pressed(ord("W"))) {
 			if(sc_is_colliding_wall() == "left") {
 				log("wall jump left");
 				return false;
@@ -426,11 +418,11 @@ function as_fall() : as_airbourne() constructor {
 				return false;
 			}
 		}
-		if(keyboard_check_pressed(vk_up) && p.double_jump) {
+		if(keyboard_check_pressed(ord("W")) && p.double_jump) {
 			p.double_jump = false;
 			p.fsm.transition(p,p.actions.double_jump);
 			return true;
-		} else if(keyboard_check_pressed(vk_space)) {
+		} else if(mouse_check_button_pressed(mb_left)) {
 			p.fsm.transition(p,p.actions.air_basic_cast);
 			return true;
 		}

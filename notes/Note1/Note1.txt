@@ -11,6 +11,8 @@ Create Fluffy
 
 Crouch Movement
 
+remove dash
+
 
 
 Fluffy:
