@@ -3,8 +3,10 @@
 active_frames = 50;
 active = true;
 
-x_vel = 10 * xscale;
-y_vel = 0;
+image_angle = angle;
+
+x_vel = 10 * dcos(angle) * xscale;
+y_vel = 10 * dsin(angle) * xscale * -1;
 
 initial_x = x;
 initial_y = y;

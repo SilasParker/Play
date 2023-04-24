@@ -22,6 +22,15 @@ if(active) {
 		}
 	}
 	
+	with(Platform) {
+			if(other.x >= leftSide && other.x <= rightSide) {
+				if(other.initial_y <= y && other.y >= y) {
+					other.sprite_index = sp_Shot_Dissipate;
+					other.active = false;
+				}
+			}
+		}
+	
 	if(active_frames > 0) {
 		active_frames -= 1;
 	} else {

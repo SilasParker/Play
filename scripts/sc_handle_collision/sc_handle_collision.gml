@@ -31,6 +31,7 @@ function sc_handle_collision(){
 				other.x = left-0.1;	
 			} else if(other.initial_x > right && other.x <= right) {
 				other.x = right+0.1;	
+			} else {
 			}
 		}
 	}
@@ -39,7 +40,6 @@ function sc_handle_collision(){
 	with(o_Door) {
 		if(left <= other.x && other.x <= right) {
 			if(y == other.y) {
-				
 				room_goto(r_room2);	
 			}
 		}

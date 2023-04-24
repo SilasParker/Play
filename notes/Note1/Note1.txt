@@ -2,7 +2,6 @@ TODO:
 
 Corner Collision
 
--Directional
 -Hit Object (Bell)
 -Protego
 
