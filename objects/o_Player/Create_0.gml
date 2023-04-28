@@ -43,7 +43,6 @@ inactionable_frames = 0;
 initial_x = x;
 initial_y = y;
 colliding_this_frame = false;
-wall_jump = true;
 
 height_offset = 50 * image_yscale;
 idle_basic_cast_offset_x = 22;
