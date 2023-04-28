@@ -204,42 +204,12 @@ function as_land() : as_grounded() constructor {
 	
 	init = function(p) {
 		p.y_vel = 0;
-		p.dashable = true;
 		p.double_jump = true;
 	}
 	
 	interrupt = function(p) {
 		p.fsm.transition(p,p.actions.idle);
 		return true;
-	}
-	
-}
-
-function as_dash() : actionstate() constructor {
-	
-	init = function(p) {
-		p.state = states.dash;
-		p.inactionable_frames = 10;
-		p.y_vel = 0;
-		p.dashable = false;
-		p.sprite_index = Dash;
-		p.x_vel = p.image_xscale * 10;
-	}
-	
-	step = function(p) {
-		p.inactionable_frames -= 1;
-	}
-	
-	interrupt = function(p) {
-		if(p.inactionable_frames == 0) {
-			if(p.landed) {
-				p.fsm.transition(p,p.actions.idle);
-				return true;
-			}
-			p.fsm.transition(p,p.actions.fall);
-			return true;
-		}
-		return false;
 	}
 	
 }
@@ -350,37 +320,6 @@ function as_idle_basic_cast() : as_grounded() constructor {
 	
 }
 
-function as_aim_basic_cast() : as_grounded() constructor {
-	
-	init = function(p) {
-		p.sprite_index = sp_aim_basic_cast;
-		p.state = states.aim_basic_cast;
-		p.x_vel = 0;
-		instance_create_layer(
-			p.x+(p.aim_basic_cast_offset_x * p.image_xscale),
-			p.y+p.aim_basic_cast_offset_y,
-			"l_player2",
-			o_Player_Arm,
-			{ xscale: p.image_xscale }
-		);
-	}
-	
-	interrupt = function(p) {
-		if(keyboard_check_released(vk_space)) {
-			p.fsm.transition(p,p.actions.idle);
-			return true;
-		}
-		return false;
-	}
-	
-	_exit = function(p) {
-		instance_deactivate_layer("l_player2");	
-		
-		
-	}
-	
-}
-
 function as_fall() : as_airbourne() constructor {
 
 	init = function(p) {
@@ -460,7 +399,36 @@ function as_wall_jump() : as_airbourne() constructor {
 		}
 		return false;
 	}
-	
-	
 
+}
+
+function as_aim_basic_cast() : as_grounded() constructor {
+	
+	init = function(p) {
+		p.sprite_index = sp_aim_basic_cast;
+		p.state = states.aim_basic_cast;
+		p.x_vel = 0;
+		instance_create_layer(
+			p.x+(p.aim_basic_cast_offset_x * p.image_xscale),
+			p.y+p.aim_basic_cast_offset_y,
+			"l_player2",
+			o_Player_Arm,
+			{ xscale: p.image_xscale }
+		);
+	}
+	
+	interrupt = function(p) {
+		if(keyboard_check_released(vk_space)) {
+			p.fsm.transition(p,p.actions.idle);
+			return true;
+		}
+		return false;
+	}
+	
+	_exit = function(p) {
+		instance_deactivate_layer("l_player2");	
+		
+		
+	}
+	
 }

@@ -60,7 +60,6 @@
     {"id":{"name":"FSM","path":"scripts/FSM/FSM.yy",},},
     {"id":{"name":"Note1","path":"notes/Note1/Note1.yy",},},
     {"id":{"name":"sc_handle_movement","path":"scripts/sc_handle_movement/sc_handle_movement.yy",},},
-    {"id":{"name":"Dash","path":"sprites/Dash/Dash.yy",},},
     {"id":{"name":"CrouchIdle","path":"sprites/CrouchIdle/CrouchIdle.yy",},},
     {"id":{"name":"Walk1","path":"sprites/Walk1/Walk1.yy",},},
     {"id":{"name":"o_Basic_Cast","path":"objects/o_Basic_Cast/o_Basic_Cast.yy",},},

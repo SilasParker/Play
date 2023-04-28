@@ -39,7 +39,6 @@
     {"name":"sp_Jump_Rise_Shoot","order":12,"path":"sprites/sp_Jump_Rise_Shoot/sp_Jump_Rise_Shoot.yy",},
     {"name":"r_room2","order":1,"path":"rooms/r_room2/r_room2.yy",},
     {"name":"sc_handle_movement","order":2,"path":"scripts/sc_handle_movement/sc_handle_movement.yy",},
-    {"name":"Dash","order":4,"path":"sprites/Dash/Dash.yy",},
     {"name":"CrouchIdle","order":6,"path":"sprites/CrouchIdle/CrouchIdle.yy",},
     {"name":"Walk1","order":15,"path":"sprites/Walk1/Walk1.yy",},
     {"name":"o_Basic_Cast","order":5,"path":"objects/o_Basic_Cast/o_Basic_Cast.yy",},

@@ -6,7 +6,6 @@ enum states {
 	first_jump,
 	double_jump,
 	fall,
-	dash,
 	land,
 	crouch_idle,
 	crouch_walk,
@@ -24,7 +23,6 @@ actions = {
 	double_jump: new as_double_jump(),
 	first_jump: new as_first_jump(),
 	fall: new as_fall(),
-	dash: new as_dash(),
 	crouch_idle: new as_crouch_idle(),
 	land: new as_land(),
 	idle_basic_cast: new as_idle_basic_cast(),
@@ -36,13 +34,13 @@ actions = {
 fsm = new FSM(actions.fall);
 
 landed = false;
-dashable = true;
 double_jump = true;
 current_plat = noone;
 inactionable_frames = 0;
 initial_x = x;
 initial_y = y;
 colliding_this_frame = false;
+wall_jump = true;
 
 height_offset = 50 * image_yscale;
 idle_basic_cast_offset_x = 22;

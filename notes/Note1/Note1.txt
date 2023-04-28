@@ -1,12 +1,8 @@
 TODO:
 
 Corner Collision
-
--Running directional
 -Hit Object (Bell)
 -Protego
-
-Wall Jump
 
 Create Fluffy
 
