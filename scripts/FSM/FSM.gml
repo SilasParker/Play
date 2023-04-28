@@ -159,6 +159,15 @@ function as_first_jump() : as_jump() constructor {
 	}
 	
 	interrupt = function(p) {
+		if(keyboard_check_pressed(ord("W"))) {
+			if(sc_is_colliding_wall() == "left" && keyboard_check(ord("D"))) {
+				p.fsm.transition(p,p.actions.wall_jump);
+				return true;
+			} else if(sc_is_colliding_wall() == "right" && keyboard_check(ord("A"))) {
+				p.fsm.transition(p,p.actions.wall_jump);
+				return true;
+			}
+		}
 		if(p.y_vel > 0) {
 			p.fsm.transition(p,p.actions.fall);
 			return true;
@@ -186,10 +195,20 @@ function as_double_jump() : as_jump() constructor {
 	}
 	
 	interrupt = function(p) {
+		if(keyboard_check_pressed(ord("W"))) {
+			if(sc_is_colliding_wall() == "left" && keyboard_check(ord("D"))) {
+				p.fsm.transition(p,p.actions.wall_jump);
+				return true;
+			} else if(sc_is_colliding_wall() == "right" && keyboard_check(ord("A"))) {
+				p.fsm.transition(p,p.actions.wall_jump);
+				return true;
+			}
+		}
 		if(p.y_vel > 0) {
 			p.fsm.transition(p,p.actions.fall);
 			return true;
-		} else if(mouse_check_button_pressed(mb_left)) {
+		}
+		if(mouse_check_button_pressed(mb_left)) {
 			p.fsm.transition(p,p.actions.air_basic_cast);
 			return true;
 		}
