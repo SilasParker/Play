@@ -1,14 +1,11 @@
 TODO:
 
 Corner Collision
+
 -Hit Object (Bell)
 -Protego
 
 Create Fluffy
-
-Crouch Movement
-
-remove dash
 
 
 

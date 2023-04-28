@@ -24,6 +24,7 @@ actions = {
 	first_jump: new as_first_jump(),
 	fall: new as_fall(),
 	crouch_idle: new as_crouch_idle(),
+	crouch_walk: new as_crouch_walk(),
 	land: new as_land(),
 	idle_basic_cast: new as_idle_basic_cast(),
 	air_basic_cast: new as_air_basic_cast(),
@@ -42,7 +43,7 @@ initial_y = y;
 colliding_this_frame = false;
 wall_jump = true;
 
-height_offset = 50 * image_yscale;
+height_offset = 45 * image_yscale;
 idle_basic_cast_offset_x = 22;
 idle_basic_cast_offset_y = -32;
 air_basic_cast_offset_x = 21;

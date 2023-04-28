@@ -93,46 +93,6 @@ function as_idle() : as_grounded() constructor {
 	
 }
 
-function as_run() : as_grounded() constructor {
-	
-	init = function(p) {
-		p.state = states.run;
-		p.sprite_index = Run;
-	}
-	
-	step = function(p) {
-		if(keyboard_check(ord("A"))) {
-			p.image_xscale = -1;
-			p.x_vel = -4;
-		} else if(keyboard_check(ord("D"))) {
-			p.image_xscale = 1;
-			p.x_vel = 4;
-		}
-	}
-	
-	interrupt = function(p) {
-		if(keyboard_check(vk_space)) {
-			p.fsm.transition(p,p.actions.aim_basic_cast);
-			return true;
-		} 
-		if(keyboard_check(ord("W"))) {
-			p.fsm.transition(p,p.actions.first_jump);
-			return true;
-		} else if(keyboard_check(ord("S"))) {
-			p.fsm.transition(p,p.actions.crouch_idle);
-			return true;
-		} else if(!(keyboard_check(ord("A")) || keyboard_check(ord("D")))) {
-			p.fsm.transition(p,p.actions.idle);
-			return true;	
-		} else if(mouse_check_button_pressed(mb_left)) {
-			p.fsm.transition(p,p.actions.idle_basic_cast);
-			return true;
-		}
-		return false;
-	}
-	
-}
-
 function as_jump() : as_airbourne() constructor {
 	
 	step = function(p) {
@@ -231,29 +191,6 @@ function as_land() : as_grounded() constructor {
 		return true;
 	}
 	
-}
-
-function as_crouch_idle() : as_grounded() constructor {
-
-	init = function(p) {
-		p.sprite_index = CrouchIdle;
-		p.state = states.crouch_idle;
-	}
-	
-	step = function(p) {
-		if(p.x_vel	!= 0) {
-			p.x_vel -= p.image_xscale;	
-		}
-	}
-	
-	interrupt = function(p) {
-		if(!keyboard_check(ord("S"))) {
-			p.fsm.transition(p,p.actions.idle);
-			return true;
-		}
-		return false;
-	}
-
 }
 
 function as_air_basic_cast() : as_airbourne() constructor {
@@ -446,8 +383,114 @@ function as_aim_basic_cast() : as_grounded() constructor {
 	
 	_exit = function(p) {
 		instance_deactivate_layer("l_player2");	
-		
-		
 	}
 	
+}
+
+function as_run() : as_grounded() constructor {
+	
+	init = function(p) {
+		p.state = states.run;
+		p.sprite_index = Run;
+	}
+	
+	step = function(p) {
+		if(keyboard_check(ord("A"))) {
+			p.image_xscale = -1;
+			p.x_vel = -4;
+		} else if(keyboard_check(ord("D"))) {
+			p.image_xscale = 1;
+			p.x_vel = 4;
+		}
+	}
+	
+	interrupt = function(p) {
+		if(keyboard_check(vk_space)) {
+			p.fsm.transition(p,p.actions.aim_basic_cast);
+			return true;
+		} 
+		if(keyboard_check(ord("W"))) {
+			p.fsm.transition(p,p.actions.first_jump);
+			return true;
+		} else if(keyboard_check(ord("S"))) {
+			p.fsm.transition(p,p.actions.crouch_idle);
+			return true;
+		} else if(!(keyboard_check(ord("A")) || keyboard_check(ord("D")))) {
+			p.fsm.transition(p,p.actions.idle);
+			return true;	
+		} else if(mouse_check_button_pressed(mb_left)) {
+			p.fsm.transition(p,p.actions.idle_basic_cast);
+			return true;
+		}
+		return false;
+	}
+	
+}
+
+function as_crouch_idle() : as_grounded() constructor {
+
+	init = function(p) {
+		p.sprite_index = sp_crouch_idle;
+		p.state = states.crouch_idle;
+		p.height_offset = 30;
+	}
+	
+	step = function(p) {
+		if(p.x_vel	!= 0) {
+			p.x_vel -= p.image_xscale;	
+		}
+	}
+	
+	interrupt = function(p) {
+		if(!keyboard_check(ord("S"))) {
+			p.fsm.transition(p,p.actions.idle);
+			return true;
+		}
+		if(keyboard_check(ord("A")) || keyboard_check(ord("D"))) {
+			p.fsm.transition(p,p.actions.crouch_walk);
+			return true;
+		}
+		return false;
+	}
+	
+	_exit = function(p) {
+		p.height_offset = 45;	
+	}
+
+}
+
+function as_crouch_walk() : as_grounded() constructor {
+
+	init = function(p) {
+		p.sprite_index = sp_crouch_walk;
+		p.state = states.crouch_walk;
+		p.height_offset = 30;
+	}
+	
+	step = function(p) {
+		if(keyboard_check(ord("A"))) {
+			p.image_xscale = -1;
+			p.x_vel = -2;
+		} else if(keyboard_check(ord("D"))) {
+			p.image_xscale = 1;
+			p.x_vel = 2;
+		}
+	}
+	
+	interrupt = function(p) {
+		if(!keyboard_check(ord("S"))) {
+			p.fsm.transition(p,p.actions.idle);
+			return true;
+		}
+		if(!(keyboard_check(ord("A")) || keyboard_check(ord("D")))) {
+			p.fsm.transition(p,p.actions.crouch_idle);
+			return true;
+		}
+		return false;
+	}
+	
+	_exit = function(p) {
+		p.height_offset = 45;	
+	}
+
 }
