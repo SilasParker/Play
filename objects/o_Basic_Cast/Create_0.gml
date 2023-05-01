@@ -11,4 +11,5 @@ y_vel = 10 * dsin(angle) * xscale * -1;
 initial_x = x;
 initial_y = y;
 
-log("BANG");
+hitbox = sc_hitbox_create(5,1,0,0,1000);
+hitbox.image_angle = angle;

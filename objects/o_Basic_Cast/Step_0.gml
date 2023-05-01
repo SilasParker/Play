@@ -3,8 +3,6 @@
 
 if(active) {
 
-
-
 	initial_x = x;
 	initial_y = y;
 
@@ -37,10 +35,29 @@ if(active) {
 		sprite_index = sp_Shot_Dissipate;
 		active = false;
 	}
+	
+	with(o_Hitbox) {
+		if(owner == other.id) {
+			x = other.x + x_offset;
+			y = other.y + y_offset;
+			with(o_Hurtbox) {
+				if(sc_are_colliding_boxes(other.id, id) && other.owner != owner) {	
+					owner.hit_this_frame = true;
+				}
+			}
+		}
+		
+		
+	}	
 
 } else {
 
 	if(image_index == 8) {
+		with(o_Hitbox) {
+			if(owner == other.id) {
+				instance_destroy(id);
+			}
+		}
 		instance_destroy(id);	
 	}
 
