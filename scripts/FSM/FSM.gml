@@ -68,9 +68,14 @@ function as_idle() : as_grounded() constructor {
 		if(p.x_vel != 0) {
 			p.x_vel = sign(p.x_vel) * max(0, abs(p.x_vel) - 0.5);
 		}
+		if(p.protego_health < 100 && p.protego_lockout_frames == 0) p.protego_health++;
 	}
 	
 	interrupt = function(p) {
+		if(keyboard_check(vk_shift) && p.protego_lockout_frames == 0) {
+			p.fsm.transition(p,p.actions.protego);
+			return true;
+		}
 		if(keyboard_check(vk_space)) {
 			p.fsm.transition(p,p.actions.aim_basic_cast);
 			return true;
@@ -78,13 +83,16 @@ function as_idle() : as_grounded() constructor {
 		if(keyboard_check(ord("A")) || keyboard_check(ord("D"))) {
 			p.fsm.transition(p,p.actions.run);
 			return true;
-		} else if(keyboard_check(ord("W"))) {
+		} 
+		if(keyboard_check(ord("W"))) {
 			p.fsm.transition(p,p.actions.first_jump);
 			return true;
-		} else if(keyboard_check(ord("S"))) {
+		} 
+		if(keyboard_check(ord("S"))) {
 			p.fsm.transition(p,p.actions.crouch_idle);
 			return true;
-		} else if(mouse_check_button_pressed(mb_left)) {
+		} 
+		if(mouse_check_button_pressed(mb_left)) {
 			p.fsm.transition(p,p.actions.idle_basic_cast);
 			return true;
 		}
@@ -104,6 +112,7 @@ function as_jump() : as_airbourne() constructor {
 			p.image_xscale = 1;
 			p.x_vel = 4;
 		}
+		if(p.protego_health < 100 && p.protego_lockout_frames == 0) p.protego_health++;
 	}
 	
 }
@@ -186,6 +195,10 @@ function as_land() : as_grounded() constructor {
 		p.double_jump = true;
 	}
 	
+	step = function(p) {
+		if(p.protego_health < 100 && p.protego_lockout_frames == 0) p.protego_health++;
+	}
+	
 	interrupt = function(p) {
 		p.fsm.transition(p,p.actions.idle);
 		return true;
@@ -222,6 +235,7 @@ function as_air_basic_cast() : as_airbourne() constructor {
 				}
 			);	
 		}
+		if(p.protego_health < 100 && p.protego_lockout_frames == 0) p.protego_health++;
 	}
 	
 	interrupt = function(p) {
@@ -264,6 +278,7 @@ function as_idle_basic_cast() : as_grounded() constructor {
 				}
 			);	
 		}
+		if(p.protego_health < 100 && p.protego_lockout_frames == 0) p.protego_health++;
 	}
 	
 	interrupt = function(p) {
@@ -299,6 +314,7 @@ function as_fall() : as_airbourne() constructor {
 		if((p.x_vel > 4 && p.image_xscale = 1) || (p.x_vel < -4 && p.image_xscale = -1)) {
 			p.x_vel -= 0.5 * p.image_xscale;
 		}
+		if(p.protego_health < 100 && p.protego_lockout_frames == 0) p.protego_health++;
 	}
 	
 	interrupt = function(p) {
@@ -337,6 +353,7 @@ function as_wall_jump() : as_airbourne() constructor {
 	step = function(p) {
 		p.y_vel += 0.2;
 		p.inactionable_frames -= 1;
+		if(p.protego_health < 100 && p.protego_lockout_frames == 0) p.protego_health++;
 	}
 	
 	interrupt = function(p) {
@@ -373,6 +390,10 @@ function as_aim_basic_cast() : as_grounded() constructor {
 		);
 	}
 	
+	step = function(p) {
+		if(p.protego_health < 100 && p.protego_lockout_frames == 0) p.protego_health++;
+	}
+	
 	interrupt = function(p) {
 		if(keyboard_check_released(vk_space)) {
 			p.fsm.transition(p,p.actions.idle);
@@ -402,6 +423,7 @@ function as_run() : as_grounded() constructor {
 			p.image_xscale = 1;
 			p.x_vel = 4;
 		}
+		if(p.protego_health < 100 && p.protego_lockout_frames == 0) p.protego_health++;
 	}
 	
 	interrupt = function(p) {
@@ -439,6 +461,7 @@ function as_crouch_idle() : as_grounded() constructor {
 		if(p.x_vel	!= 0) {
 			p.x_vel -= p.image_xscale;	
 		}
+		if(p.protego_health < 100 && p.protego_lockout_frames == 0) p.protego_health++;
 	}
 	
 	interrupt = function(p) {
@@ -475,6 +498,7 @@ function as_crouch_walk() : as_grounded() constructor {
 			p.image_xscale = 1;
 			p.x_vel = 2;
 		}
+		if(p.protego_health < 100 && p.protego_lockout_frames == 0) p.protego_health++;
 	}
 	
 	interrupt = function(p) {
@@ -491,6 +515,33 @@ function as_crouch_walk() : as_grounded() constructor {
 	
 	_exit = function(p) {
 		p.height_offset = 45;	
+	}
+
+}
+
+function as_protego() : as_grounded() constructor {
+
+	init = function(p) {
+		p.sprite_index = sp_player_protego;
+		p.state = states.protego;
+		p.x_vel = 0;
+	}
+	
+	step = function(p) {
+		p.protego_health--;
+	}
+	
+	interrupt = function(p) {
+		if(!keyboard_check(vk_shift)) {
+			p.fsm.transition(p,p.actions.idle);
+			return true;
+		}
+		if(p.protego_health <= 0) {
+			p.fsm.transition(p,p.actions.idle);
+			p.protego_lockout_frames = 180;
+			return true;	
+		}
+		return false;
 	}
 
 }

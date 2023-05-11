@@ -12,7 +12,8 @@ enum states {
 	idle_basic_cast,
 	air_basic_cast,
 	aim_basic_cast,
-	wall_jump
+	wall_jump,
+	protego
 }
 
 #macro log show_debug_message
@@ -29,7 +30,8 @@ actions = {
 	idle_basic_cast: new as_idle_basic_cast(),
 	air_basic_cast: new as_air_basic_cast(),
 	aim_basic_cast: new as_aim_basic_cast(),
-	wall_jump: new as_wall_jump()
+	wall_jump: new as_wall_jump(),
+	protego : new as_protego()
 };
 
 fsm = new FSM(actions.fall);
@@ -42,6 +44,8 @@ initial_x = x;
 initial_y = y;
 colliding_this_frame = false;
 wall_jump = true;
+protego_lockout_frames = 0;
+protego_health = 100;
 
 height_offset = 45 * image_yscale;
 idle_basic_cast_offset_x = 22;

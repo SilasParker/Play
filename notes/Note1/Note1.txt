@@ -2,8 +2,9 @@ TODO:
 
 Corner Collision
 
--Hit Object (Bell)
--Protego
+Protego
+
+Bell Puzzle
 
 Create Fluffy
 
