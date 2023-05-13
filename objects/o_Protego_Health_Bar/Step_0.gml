@@ -10,7 +10,6 @@ with(o_Player) {
 	} else {
 		other.sprite_index = sp_protego_health_bar_5;
 	}
-	log(protego_health);
 	if(protego_health == 100 || protego_health == 1) {
 		other.sprite_index = noone;	
 	}

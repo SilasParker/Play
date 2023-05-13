@@ -2,11 +2,18 @@ TODO:
 
 Corner Collision
 
-Protego
+create layout
 
-Bell Puzzle
+Protego block
 
-Create Fluffy
+Bell sound
+bell sound in correct order moves to next level
+
+-fluffy sprite
+-fluffy moving
+-fluffy shooting
+-fluffy eye hurtbox
+-fluffy body hitbox
 
 
 

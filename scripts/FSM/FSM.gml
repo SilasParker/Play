@@ -62,6 +62,7 @@ function as_idle() : as_grounded() constructor {
 		p.state = states.idle;
 		p.landed = true;
 		p.sprite_index = Idle;
+		p.hurtbox = sc_hurtbox_create(15, 44, -7, -44, p.id);
 	}
 	
 	step = function(p) {
@@ -99,6 +100,14 @@ function as_idle() : as_grounded() constructor {
 		return false;
 	}
 	
+	_exit = function(p) {
+		with(o_Hurtbox) {
+			if(owner == p.id) {
+				instance_destroy();	
+			}
+		}
+	}
+	
 }
 
 function as_jump() : as_airbourne() constructor {
@@ -125,6 +134,7 @@ function as_first_jump() : as_jump() constructor {
 		p.landed = false;
 		p.current_plat = noone;
 		p.sprite_index = JumpRise;
+		p.hurtbox = sc_hurtbox_create(15, 45, -7, -45, p.id);
 	}
 	
 	interrupt = function(p) {
@@ -153,6 +163,14 @@ function as_first_jump() : as_jump() constructor {
 		return false;
 	}
 	
+	_exit = function(p) {
+		with(o_Hurtbox) {
+			if(owner == p.id) {
+				instance_destroy();	
+			}
+		}
+	}
+	
 }
 
 function as_double_jump() : as_jump() constructor {
@@ -161,6 +179,7 @@ function as_double_jump() : as_jump() constructor {
 		p.y_vel = -3.5;
 		p.state = states.double_jump;
 		p.sprite_index = JumpRise;
+		p.hurtbox = sc_hurtbox_create(15, 45, -7, -45, p.id);
 	}
 	
 	interrupt = function(p) {
@@ -184,7 +203,13 @@ function as_double_jump() : as_jump() constructor {
 		return false;
 	}
 	
-	
+	_exit = function(p) {
+		with(o_Hurtbox) {
+			if(owner == p.id) {
+				instance_destroy();	
+			}
+		}
+	}
 	
 }
 
@@ -211,6 +236,7 @@ function as_air_basic_cast() : as_airbourne() constructor {
 	init = function(p) {
 		p.sprite_index = sp_Jump_Rise_Shoot;
 		p.state = states.air_basic_cast;
+		p.hurtbox = sc_hurtbox_create(30, 48, -23, -48, p.id);
 	}
 	
 	step = function(p) {
@@ -252,6 +278,14 @@ function as_air_basic_cast() : as_airbourne() constructor {
 			return true;
 		}
 		return false;
+	}
+	
+	_exit = function(p) {
+		with(o_Hurtbox) {
+			if(owner == p.id) {
+				instance_destroy();	
+			}
+		}
 	}
 
 }
@@ -336,6 +370,14 @@ function as_fall() : as_airbourne() constructor {
 			return true;
 		}
 		return false;
+	}
+	
+	_exit = function(p) {
+		with(o_Hurtbox) {
+			if(owner ==	p.id) {
+				//instance_destroy();	
+			}
+		}
 	}
 
 }
