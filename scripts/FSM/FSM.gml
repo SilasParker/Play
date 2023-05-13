@@ -236,7 +236,7 @@ function as_air_basic_cast() : as_airbourne() constructor {
 	init = function(p) {
 		p.sprite_index = sp_Jump_Rise_Shoot;
 		p.state = states.air_basic_cast;
-		p.hurtbox = sc_hurtbox_create(30, 48, -23, -48, p.id);
+		p.hurtbox = sc_hurtbox_create(23, 48, -11, -48, p.id);
 	}
 	
 	step = function(p) {
@@ -297,6 +297,7 @@ function as_idle_basic_cast() : as_grounded() constructor {
 		p.state = states.idle_basic_cast;
 		p.x_vel = 0;
 		p.image_index = 0;
+		p.hurtbox = sc_hurtbox_create(24, 43, -12, -43, p.id);
 	}
 	
 	step = function(p) {
@@ -323,6 +324,14 @@ function as_idle_basic_cast() : as_grounded() constructor {
 		return false;
 	}
 	
+	_exit = function(p) {
+		with(o_Hurtbox) {
+			if(owner == p.id) {
+				instance_destroy();	
+			}
+		}
+	}
+	
 }
 
 function as_fall() : as_airbourne() constructor {
@@ -331,6 +340,7 @@ function as_fall() : as_airbourne() constructor {
 		p.state = states.fall;
 		p.landed = false;
 		p.sprite_index = JumpFall;
+		p.hurtbox = sc_hurtbox_create(15, 43, -8, -43, p.id);
 	}
 	
 	step = function(p) {
@@ -374,8 +384,8 @@ function as_fall() : as_airbourne() constructor {
 	
 	_exit = function(p) {
 		with(o_Hurtbox) {
-			if(owner ==	p.id) {
-				//instance_destroy();	
+			if(owner == p.id) {
+				instance_destroy();	
 			}
 		}
 	}
@@ -390,6 +400,7 @@ function as_wall_jump() : as_airbourne() constructor {
 		p.x_vel = 2 * sign(p.image_xscale);
 		p.y_vel = -3.5;
 		p.inactionable_frames = 25;
+		p.hurtbox = sc_hurtbox_create(29, 17, -15, -17, p.id);
 	}
 	
 	step = function(p) {
@@ -414,6 +425,14 @@ function as_wall_jump() : as_airbourne() constructor {
 		}
 		return false;
 	}
+	
+	_exit = function(p) {
+		with(o_Hurtbox) {
+			if(owner == p.id) {
+				instance_destroy();	
+			}
+		}
+	}
 
 }
 
@@ -430,6 +449,7 @@ function as_aim_basic_cast() : as_grounded() constructor {
 			o_Player_Arm,
 			{ xscale: p.image_xscale }
 		);
+		p.hurtbox = sc_hurtbox_create(24, 43, -12, -43, p.id);
 	}
 	
 	step = function(p) {
@@ -446,6 +466,11 @@ function as_aim_basic_cast() : as_grounded() constructor {
 	
 	_exit = function(p) {
 		instance_deactivate_layer("l_player2");	
+		with(o_Hurtbox) {
+			if(owner == p.id) {
+				instance_destroy();	
+			}
+		}
 	}
 	
 }
@@ -455,6 +480,7 @@ function as_run() : as_grounded() constructor {
 	init = function(p) {
 		p.state = states.run;
 		p.sprite_index = Run;
+		p.hurtbox = sc_hurtbox_create(20, 37, -10, -37, p.id);
 	}
 	
 	step = function(p) {
@@ -489,6 +515,14 @@ function as_run() : as_grounded() constructor {
 		return false;
 	}
 	
+	_exit = function(p) {
+		with(o_Hurtbox) {
+			if(owner == p.id) {
+				instance_destroy();	
+			}
+		}
+	}
+	
 }
 
 function as_crouch_idle() : as_grounded() constructor {
@@ -497,6 +531,7 @@ function as_crouch_idle() : as_grounded() constructor {
 		p.sprite_index = sp_crouch_idle;
 		p.state = states.crouch_idle;
 		p.height_offset = 30;
+		p.hurtbox = sc_hurtbox_create(20, 29, -10, -29, p.id);
 	}
 	
 	step = function(p) {
@@ -520,6 +555,11 @@ function as_crouch_idle() : as_grounded() constructor {
 	
 	_exit = function(p) {
 		p.height_offset = 45;	
+		with(o_Hurtbox) {
+			if(owner == p.id) {
+				instance_destroy();	
+			}
+		}
 	}
 
 }
@@ -530,6 +570,7 @@ function as_crouch_walk() : as_grounded() constructor {
 		p.sprite_index = sp_crouch_walk;
 		p.state = states.crouch_walk;
 		p.height_offset = 30;
+		p.hurtbox = sc_hurtbox_create(20, 29, -10, -29, p.id);
 	}
 	
 	step = function(p) {
@@ -556,7 +597,12 @@ function as_crouch_walk() : as_grounded() constructor {
 	}
 	
 	_exit = function(p) {
-		p.height_offset = 45;	
+		p.height_offset = 45;
+		with(o_Hurtbox) {
+			if(owner == p.id) {
+				instance_destroy();	
+			}
+		}
 	}
 
 }
@@ -567,6 +613,13 @@ function as_protego() : as_grounded() constructor {
 		p.sprite_index = sp_player_protego;
 		p.state = states.protego;
 		p.x_vel = 0;
+		p.hurtbox = sc_hurtbox_create(21, 43, -10, -43, p.id);
+		instance_create_layer(
+			p.x,
+			p.y,
+			"l_player2",
+			o_Protego,
+		);
 	}
 	
 	step = function(p) {
@@ -584,6 +637,17 @@ function as_protego() : as_grounded() constructor {
 			return true;	
 		}
 		return false;
+	}
+	
+	_exit = function(p) {
+		with(o_Hurtbox) {
+			if(owner == p.id) {
+				instance_destroy();	
+			}
+		}
+		with(o_Protego) {
+			instance_destroy();	
+		}
 	}
 
 }
